@@ -9,9 +9,10 @@ public class PlayerController : MonoBehaviour
     public float playerSpeed;
     public float camRotation;
     public Camera cam;
+    GunController gunController;
     void Start()
     {
-        
+        gunController=GetComponentInChildren<GunController>();
     }
 
     // Update is called once per frame
@@ -20,6 +21,8 @@ public class PlayerController : MonoBehaviour
         float inputX = Input.GetAxis("Horizontal")*playerSpeed;          // PLayer Moving left and right
         float inputZ = Input.GetAxis("Vertical")*playerSpeed;           // PLayer moving forward and backward
         this.transform.Translate(new Vector3(inputX, 0f, inputZ));
+       
+        
         // Player Rotation
         if(Input.GetKey(KeyCode.N))
         {

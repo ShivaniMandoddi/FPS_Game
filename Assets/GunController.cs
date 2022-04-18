@@ -6,7 +6,8 @@ public class GunController : MonoBehaviour
 {
     // Start is called before the first frame update
     Animator animator;
-   
+
+    
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -26,22 +27,6 @@ public class GunController : MonoBehaviour
 
 
     }
-    public void TriggerAllFalse()
-    {
-        animator.SetBool("IsHide", false);
-        animator.SetBool("IsReload", false);
-    }
-   
-    public void Hide()
-    {
-          TriggerAllFalse();
-        animator.SetBool("IsHide", true);
-
-    }
-    public void Shoot()
-    {
-        TriggerAllFalse();
-        animator.SetTrigger("IsShoot");
-    }
+    
 
 }

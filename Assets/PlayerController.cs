@@ -10,6 +10,8 @@ public class PlayerController : MonoBehaviour
     public float camRotation;
     public Camera cam;
     GunController gunController;
+    public Transform bulletpoint;
+    public EnemyController enemyController;
     void Start()
     {
         gunController=GetComponentInChildren<GunController>();
@@ -35,6 +37,6 @@ public class PlayerController : MonoBehaviour
         // Cam Rotation
         float caminputx = Input.GetAxis("Mouse Y")*camRotation;
         cam.transform.Rotate(-caminputx, 0f, 0f);
-
+        
     }
 }

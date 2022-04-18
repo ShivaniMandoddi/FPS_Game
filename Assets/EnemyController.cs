@@ -9,11 +9,11 @@ public class EnemyController : MonoBehaviour
     NavMeshAgent agent;
     Animator animator;
     public Transform target;
-    enum STATE
+    public enum STATE
     {
         IDLE,ATTACK,RUN,DEAD
     }
-    STATE state = STATE.IDLE;
+    public STATE state = STATE.IDLE;
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -35,6 +35,7 @@ public class EnemyController : MonoBehaviour
                 Run();
                 break;
             case STATE.DEAD:
+                Dead();
                 break;
             default:
                 break;
@@ -84,6 +85,11 @@ public class EnemyController : MonoBehaviour
         animator.SetBool("IsWalk", false);
         animator.SetBool("IsDead", false);
 
+    }
+    public void Dead()
+    {
+        AllAnimationFalse();
+        animator.SetBool("IsDead", true);
     }
     public float GetDistance()
     {

@@ -6,11 +6,12 @@ public class GunController : MonoBehaviour
 {
     // Start is called before the first frame update
     Animator animator;
-
+    AudioSource audioSource;
     
     void Start()
     {
         animator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
         
     }
 
@@ -21,7 +22,20 @@ public class GunController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.H))
             animator.SetBool("IsHide",!animator.GetBool("IsHide"));
         if (Input.GetMouseButtonDown(0))
+        {
+            audioSource.Play();
             animator.SetTrigger("IsShoot");
+            RaycastHit hit;
+            Transform bulletpoint = GetComponentInChildren<Transform>();
+            if (Physics.Raycast(bulletpoint.position, bulletpoint.forward, out hit, 100f))
+            {
+                GameObject enemyhit = hit.collider.gameObject;
+                if (enemyhit.tag == "Enemy")
+                {
+                    enemyhit.GetComponent<EnemyController>().state = EnemyController.STATE.DEAD;
+                }
+            }
+        }
         if (Input.GetKeyDown(KeyCode.R))
             animator.SetTrigger("IsReload");
 

@@ -18,19 +18,19 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float inputX = Input.GetAxis("Horizontal")*playerSpeed;          // PLayer Moving left and right
-        float inputZ = Input.GetAxis("Vertical")*playerSpeed;           // PLayer moving forward and backward
+        float inputX = Input.GetAxis("Horizontal")*playerSpeed*Time.deltaTime;          // PLayer Moving left and right
+        float inputZ = Input.GetAxis("Vertical")*playerSpeed*Time.deltaTime;           // PLayer moving forward and backward
         this.transform.Translate(new Vector3(inputX, 0f, inputZ));
        
         
         // Player Rotation
         if(Input.GetKey(KeyCode.N))
         {
-            this.transform.Rotate(0f, -2f, 0f);
+            this.transform.Rotate(0f, -1f, 0f);
         }
         if (Input.GetKey(KeyCode.M))
         {
-            this.transform.Rotate(0f,2f, 0f);
+            this.transform.Rotate(0f,1f, 0f);
         }
         // Cam Rotation
         float caminputx = Input.GetAxis("Mouse Y")*camRotation;

@@ -9,6 +9,7 @@ public class EnemyController : MonoBehaviour
     NavMeshAgent agent;
     Animator animator;
     public Transform target;
+    PlayerController playerController;
     public enum STATE
     {
         IDLE,ATTACK,RUN,DEAD
@@ -18,15 +19,17 @@ public class EnemyController : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
+
+        if (target == null)
+        {
+            target = GameObject.Find("Player").GetComponent<Transform>();
+        }
+        playerController = target.GetComponent<PlayerController>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(target==null)
-        {
-            target = GameObject.Find("Player").GetComponent<Transform>();
-        }
         switch (state)
         {
             case STATE.IDLE:
@@ -77,11 +80,12 @@ public class EnemyController : MonoBehaviour
         AllAnimationFalse();
         animator.SetBool("IsAttack", true);
         transform.LookAt(target.transform.position);
-
+        
         if (GetDistance() >agent.stoppingDistance)
         {
             state = STATE.IDLE;
         }
+
         
     }
     public void AllAnimationFalse()
@@ -99,5 +103,9 @@ public class EnemyController : MonoBehaviour
     public float GetDistance()
     {
         return (Vector3.Distance(target.position, this.transform.position));
+    }
+    public void DamagePlayer()
+    {
+        playerController.health--;
     }
 }

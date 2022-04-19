@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     GunController gunController;
     public Transform bulletpoint;
     public EnemyController enemyController;
+    public int health;
     
     void Start()
     {
@@ -41,6 +42,10 @@ public class PlayerController : MonoBehaviour
         // Cam Rotation
         float caminputx = Input.GetAxis("Mouse Y")*camRotation;
         cam.transform.Rotate(-caminputx, 0f, 0f);
+        if(health==0)
+        {
+            Debug.Log("GameOver");
+        }
         
     }
 }

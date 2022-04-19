@@ -7,7 +7,7 @@ public class GunController : MonoBehaviour
     // Start is called before the first frame update
     Animator animator;
     AudioSource audioSource;
-
+    public GameObject enemyRagDoll;
     
     void Start()
     {
@@ -28,13 +28,26 @@ public class GunController : MonoBehaviour
             animator.SetTrigger("IsShoot");
             RaycastHit hit;
             Transform bulletpoint = GetComponentInChildren<Transform>();
-            if (Physics.Raycast(bulletpoint.position, bulletpoint.forward, out hit, 100f))
+            if (Physics.Raycast(bulletpoint.position, bulletpoint.forward, out hit, 100f))          
             {
                 GameObject enemyhit = hit.collider.gameObject;
-                if (enemyhit.tag == "Enemy")
+                
+                if (enemyhit.tag == "Enemy" )           //Bullet hitting to enemy
                 {
-                    enemyhit.GetComponent<EnemyController>().state = EnemyController.STATE.DEAD;
+                    if(Random.Range(0, 5) < 2)
+                    {
+                        enemyhit.GetComponent<EnemyController>().state = EnemyController.STATE.DEAD;
+                    }
+                    else
+                    {
+                        GameObject temp = Instantiate(enemyRagDoll, enemyhit.transform.position, enemyhit.transform.rotation);
+                        temp.transform.Find("Hips").GetComponent<Rigidbody>().AddForce(Camera.main.transform.forward * 1000f);
+                        Destroy(enemyhit);
+                    }
                 }
+                    
+                
+              
             }
         }
         if (Input.GetKeyDown(KeyCode.R))             //Reloading 

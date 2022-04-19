@@ -7,6 +7,7 @@ public class GunController : MonoBehaviour
     // Start is called before the first frame update
     Animator animator;
     AudioSource audioSource;
+
     
     void Start()
     {
@@ -19,9 +20,9 @@ public class GunController : MonoBehaviour
     void Update()
     {
 
-        if (Input.GetKeyDown(KeyCode.H))
+        if (Input.GetKeyDown(KeyCode.H))                                 // Hiding the gun
             animator.SetBool("IsHide",!animator.GetBool("IsHide"));
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0))                              // Firing or Shooting
         {
             audioSource.Play();
             animator.SetTrigger("IsShoot");
@@ -36,7 +37,7 @@ public class GunController : MonoBehaviour
                 }
             }
         }
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.R))             //Reloading 
             animator.SetTrigger("IsReload");
 
 

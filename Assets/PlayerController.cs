@@ -12,9 +12,11 @@ public class PlayerController : MonoBehaviour
     GunController gunController;
     public Transform bulletpoint;
     public EnemyController enemyController;
+    
     void Start()
     {
         gunController=GetComponentInChildren<GunController>();
+        
     }
 
     // Update is called once per frame
@@ -23,17 +25,19 @@ public class PlayerController : MonoBehaviour
         float inputX = Input.GetAxis("Horizontal")*playerSpeed*Time.deltaTime;          // PLayer Moving left and right
         float inputZ = Input.GetAxis("Vertical")*playerSpeed*Time.deltaTime;           // PLayer moving forward and backward
         this.transform.Translate(new Vector3(inputX, 0f, inputZ));
-       
         
+
         // Player Rotation
-        if(Input.GetKey(KeyCode.N))
+        float caminputy = Input.GetAxis("Mouse X") * camRotation; 
+        transform.Rotate(0f, caminputy, 0f);
+        /*if (Input.GetKey(KeyCode.N))            
         {
             this.transform.Rotate(0f, -1f, 0f);
         }
-        if (Input.GetKey(KeyCode.M))
+        if (Input.GetKey(KeyCode.M))      // To rotate player
         {
             this.transform.Rotate(0f,1f, 0f);
-        }
+        }*/
         // Cam Rotation
         float caminputx = Input.GetAxis("Mouse Y")*camRotation;
         cam.transform.Rotate(-caminputx, 0f, 0f);

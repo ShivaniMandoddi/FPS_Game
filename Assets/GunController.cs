@@ -8,7 +8,7 @@ public class GunController : MonoBehaviour
     Animator animator;
     AudioSource audioSource;
     public GameObject enemyRagDoll;
-    
+    GameObject temp;
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -40,9 +40,10 @@ public class GunController : MonoBehaviour
                     }
                     else
                     {
-                        GameObject temp = Instantiate(enemyRagDoll, enemyhit.transform.position, enemyhit.transform.rotation);
+                        temp = Instantiate(enemyRagDoll, enemyhit.transform.position, enemyhit.transform.rotation);
                         temp.transform.Find("Hips").GetComponent<Rigidbody>().AddForce(Camera.main.transform.forward * 1000f);
                         Destroy(enemyhit);
+                        
                     }
                 }
                     
@@ -55,6 +56,6 @@ public class GunController : MonoBehaviour
 
 
     }
-    
+   
 
 }

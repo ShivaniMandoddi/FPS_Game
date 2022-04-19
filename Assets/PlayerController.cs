@@ -1,6 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+
+
+
 
 public class PlayerController : MonoBehaviour
 {
@@ -11,10 +16,13 @@ public class PlayerController : MonoBehaviour
     public Camera cam;
     GunController gunController;
     public EnemyController enemyController;
-    public int health;
+    public int health=20;
+    int maxHealth=50;
+    public int ammo = 20;
+    public int maxAmmo = 20;
     public bool IsGameover = false;
     public GameObject Steve;
-
+    
     void Start()
     {
         gunController=GetComponentInChildren<GunController>();
@@ -58,5 +66,20 @@ public class PlayerController : MonoBehaviour
         temp.GetComponent<Animator>().SetTrigger("Death");
         Destroy(gameObject);
         
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.tag=="Ammo")
+        {
+            Debug.Log("Ammo is collected");
+            ammo = Mathf.Clamp(ammo + 20, 0, maxAmmo);
+            Destroy(collision.gameObject);
+        }
+        if(collision.gameObject.tag=="Medical")
+        {
+            Debug.Log("Health is collected");
+            health = Mathf.Clamp(health + 50, 0, maxHealth);
+            Destroy(collision.gameObject);
+        }
     }
 }

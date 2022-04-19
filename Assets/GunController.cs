@@ -9,13 +9,13 @@ public class GunController : MonoBehaviour
     AudioSource audioSource;
     public GameObject enemyRagDoll;
     GameObject temp;
-    public int ammo=20;
-    public int maxAmmo=20;
+    PlayerController playerController;
     public Transform bulletpoint;
     void Start()
     {
         animator = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
+        playerController = GameObject.Find("Player").GetComponent<PlayerController>();
         
     }
 
@@ -27,11 +27,11 @@ public class GunController : MonoBehaviour
             animator.SetBool("IsHide",!animator.GetBool("IsHide"));
         if (Input.GetMouseButtonDown(0))                              // Firing or Shooting
         {
-            if (ammo > 0)
+            if (playerController.ammo > 0)
             {
                 audioSource.Play();
                 animator.SetTrigger("IsShoot");
-                ammo--;
+                playerController.ammo--;
                 RaycastHit hit;
                 //Transform bulletpoint = GetComponentInChildren<Transform>();
                 if (Physics.Raycast(bulletpoint.position, bulletpoint.forward, out hit, 100f))
@@ -63,8 +63,8 @@ public class GunController : MonoBehaviour
         } 
         if (Input.GetKeyDown(KeyCode.R)) //Reloading 
         {
-            int ammoNeeded = maxAmmo - ammo;
-            ammo = ammo + ammoNeeded;
+            int ammoNeeded = playerController.maxAmmo - playerController.ammo;
+            playerController.ammo = playerController.ammo + ammoNeeded;
             animator.SetTrigger("IsReload");
         }
 

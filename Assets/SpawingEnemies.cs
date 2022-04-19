@@ -15,10 +15,7 @@ public class SpawingEnemies : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
     public void SpawnEnemy(int value)
     {
         for (int i = 0; i < value; i++)

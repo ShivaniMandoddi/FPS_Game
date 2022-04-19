@@ -9,6 +9,9 @@ public class GunController : MonoBehaviour
     AudioSource audioSource;
     public GameObject enemyRagDoll;
     GameObject temp;
+    public int ammo=20;
+    public int maxAmmo=20;
+    public Transform bulletpoint;
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -24,35 +27,46 @@ public class GunController : MonoBehaviour
             animator.SetBool("IsHide",!animator.GetBool("IsHide"));
         if (Input.GetMouseButtonDown(0))                              // Firing or Shooting
         {
-            audioSource.Play();
-            animator.SetTrigger("IsShoot");
-            RaycastHit hit;
-            Transform bulletpoint = GetComponentInChildren<Transform>();
-            if (Physics.Raycast(bulletpoint.position, bulletpoint.forward, out hit, 100f))          
+            if (ammo > 0)
             {
-                GameObject enemyhit = hit.collider.gameObject;
-                
-                if (enemyhit.tag == "Enemy" )           //Bullet hitting to enemy
+                audioSource.Play();
+                animator.SetTrigger("IsShoot");
+                ammo--;
+                RaycastHit hit;
+                //Transform bulletpoint = GetComponentInChildren<Transform>();
+                if (Physics.Raycast(bulletpoint.position, bulletpoint.forward, out hit, 100f))
                 {
-                    if(Random.Range(0, 5) < 2)
+                    GameObject enemyhit = hit.collider.gameObject; 
+                    if (enemyhit.tag == "Enemy")           //Bullet hitting to enemy
                     {
-                        enemyhit.GetComponent<EnemyController>().state = EnemyController.STATE.DEAD;
+                       
+                        if (Random.Range(0, 5) < 2)
+                        {
+                            enemyhit.GetComponent<EnemyController>().state = EnemyController.STATE.DEAD;
+                        }
+                        else
+                        {
+                            temp = Instantiate(enemyRagDoll, enemyhit.transform.position, enemyhit.transform.rotation);
+                            temp.transform.Find("Hips").GetComponent<Rigidbody>().AddForce(Camera.main.transform.forward * 1000f);
+                            Destroy(enemyhit);
+
+                        }
                     }
-                    else
-                    {
-                        temp = Instantiate(enemyRagDoll, enemyhit.transform.position, enemyhit.transform.rotation);
-                        temp.transform.Find("Hips").GetComponent<Rigidbody>().AddForce(Camera.main.transform.forward * 1000f);
-                        Destroy(enemyhit);
-                        
-                    }
+
                 }
-                    
-                
-              
             }
-        }
-        if (Input.GetKeyDown(KeyCode.R))             //Reloading 
+            else
+            {
+                Debug.Log("Ammo needed");
+                
+            }
+        } 
+        if (Input.GetKeyDown(KeyCode.R)) //Reloading 
+        {
+            int ammoNeeded = maxAmmo - ammo;
+            ammo = ammo + ammoNeeded;
             animator.SetTrigger("IsReload");
+        }
 
 
     }

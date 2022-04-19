@@ -52,7 +52,7 @@ public class EnemyController : MonoBehaviour
     public void Idle()
     {
         AllAnimationFalse();
-        if(Vector3.Distance(target.position,this.transform.position)<15f)
+        if(GetDistance()<15f)
         {
             state = STATE.RUN;
         }
@@ -62,7 +62,11 @@ public class EnemyController : MonoBehaviour
         AllAnimationFalse();
         animator.SetBool("IsWalk", true);
         agent.stoppingDistance = 6f;
-        agent.SetDestination(target.transform.position);
+        if(playerController.IsGameover==false)
+        {
+            agent.SetDestination(target.transform.position);
+        }
+       
         
         if(GetDistance()<agent.stoppingDistance+1f)
         {
@@ -102,6 +106,8 @@ public class EnemyController : MonoBehaviour
     }
     public float GetDistance()
     {
+        if (playerController.IsGameover == true)
+            return Mathf.Infinity;
         return (Vector3.Distance(target.position, this.transform.position));
     }
     public void DamagePlayer()

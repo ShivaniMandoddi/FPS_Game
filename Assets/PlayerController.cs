@@ -10,10 +10,11 @@ public class PlayerController : MonoBehaviour
     public float camRotation;
     public Camera cam;
     GunController gunController;
-    public Transform bulletpoint;
     public EnemyController enemyController;
     public int health;
-    
+    public bool IsGameover = false;
+    public GameObject Steve;
+
     void Start()
     {
         gunController=GetComponentInChildren<GunController>();
@@ -44,8 +45,18 @@ public class PlayerController : MonoBehaviour
         cam.transform.Rotate(-caminputx, 0f, 0f);
         if(health==0)
         {
+            IsGameover = true;
             Debug.Log("GameOver");
+            PlayerDeath();
+
         }
+       
+    }
+    public void PlayerDeath()
+    {
+        GameObject temp = Instantiate(Steve, transform.position, Quaternion.identity);
+        temp.GetComponent<Animator>().SetTrigger("Death");
+        Destroy(gameObject);
         
     }
 }
